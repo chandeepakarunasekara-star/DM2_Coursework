@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CourseConnect</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Data Management 2 Coursework</p>
+        <h1>CourseConnect</h1>
+      </div>
+      <nav>
+        <a href="#catalogue">Catalogue</a>
+        <a href="#reports">Reports</a>
+        <a href="#content">MongoDB</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Online learning platform</p>
+          <h2>One system for courses, enrollments, payments, progress, content, feedback, and forums.</h2>
+          <p class="lead">Oracle handles the structured operational data. MongoDB handles dynamic content, reviews, and discussions.</p>
+        </div>
+        <div class="metric-panel" id="dashboard"></div>
+      </section>
+
+      <section id="catalogue" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Course catalogue</p>
+          <h2>Courses are linked to lecturers, enrollments, payments, and reviews.</h2>
+        </div>
+        <div class="course-grid" id="courses"></div>
+      </section>
+
+      <section id="reports" class="section split">
+        <div>
+          <p class="eyebrow">PL/SQL business reports</p>
+          <h2>Reports expected in the coursework brief.</h2>
+          <p>The Oracle package includes reports for popular courses, monthly revenue, student progress, pending payments, and lecturer performance.</p>
+        </div>
+        <div class="report-list" id="reports-list"></div>
+      </section>
+
+      <section id="content" class="section split">
+        <div>
+          <p class="eyebrow">MongoDB integration</p>
+          <h2>Flexible content for resources, feedback, and forum conversations.</h2>
+          <p>Reviews and discussion threads can grow without changing the relational schema.</p>
+        </div>
+        <div class="forum-search">
+          <label for="keyword">Search forum keyword</label>
+          <div class="search-row">
+            <input id="keyword" value="trigger" aria-label="Forum keyword">
+            <button id="search">Search</button>
+          </div>
+          <div id="forum-results"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

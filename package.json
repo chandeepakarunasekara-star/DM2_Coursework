@@ -1,0 +1,19 @@
+{
+  "name": "courseconnect-coursework",
+  "version": "1.0.0",
+  "description": "CourseConnect coursework project for Data Management 2: Oracle relational database, PL/SQL reports, MongoDB flexible content, and a web application.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node src/tests.js"
+  },
+  "keywords": [
+    "oracle",
+    "mongodb",
+    "plsql",
+    "courseconnect",
+    "coursework"
+  ],
+  "author": "HDSE Student",
+  "license": "MIT"
+}
