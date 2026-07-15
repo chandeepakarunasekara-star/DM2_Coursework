@@ -80,11 +80,6 @@ VALUES (2, DATE '2026-01-29', 'CC-2026-0002');
 INSERT INTO certificates (enrollment_id, issued_date, certificate_code)
 VALUES (6, DATE '2026-03-12', 'CC-2026-0006');
 
--- Application login accounts. All demo accounts use the password
--- "password123" - the hash/salt below were generated with the same
--- scrypt-based hashing the Node app uses (see src/db/passwords.js), so
--- logins work identically whether the app is running against Oracle or the
--- embedded SQLite fallback.
 INSERT INTO users (email, full_name, role, password_hash, password_salt)
 VALUES ('admin@courseconnect.edu', 'Platform Admin', 'ADMIN',
   '1c5121914d1dcf0ab473380e667742ed8853110d9481e7e45ae3b0785d7f3963155680e844bb943584990f49fcf9a3bd155de499db1b6a2f0764c8df70c8a520',

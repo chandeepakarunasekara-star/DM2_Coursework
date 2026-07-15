@@ -1,5 +1,4 @@
-// CourseConnect MongoDB seed data and coursework query examples.
-// Run with: mongosh < database/mongodb/seed_and_queries.js
+
 
 use("courseconnect");
 

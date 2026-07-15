@@ -12,6 +12,18 @@
 const { ERRORS } = require("./errors");
 const { hashPassword } = require("./passwords");
 
+// Oracle returns unquoted column names in UPPERCASE by default (e.g.
+// PASSWORD_HASH), but the rest of the app - and the SQLite demo engine -
+// expects lowercase keys (e.g. password_hash). Normalize every row here in
+// one place so both engines return identically-shaped objects.
+function lowercaseKeys(row) {
+  const out = {};
+  for (const key of Object.keys(row)) {
+    out[key.toLowerCase()] = row[key];
+  }
+  return out;
+}
+
 class OracleEngine {
   constructor(config) {
     let oracledb;
@@ -58,7 +70,7 @@ class OracleEngine {
   async _query(sql, binds = []) {
     return this._withConn(async (conn) => {
       const result = await conn.execute(sql, binds);
-      return result.rows;
+      return result.rows.map(lowercaseKeys);
     });
   }
 
@@ -71,7 +83,7 @@ class OracleEngine {
       const cursor = result.outBinds.p_result;
       const rows = await cursor.getRows();
       await cursor.close();
-      return rows;
+      return rows.map(lowercaseKeys);
     });
   }
 
@@ -163,8 +175,11 @@ class OracleEngine {
       binds.category = category;
     }
     if (level) {
-      sql += " AND c.course_level = :level";
-      binds.level = level;
+      // NOTE: "LEVEL" is an Oracle reserved pseudo-column, so the bind
+      // variable is named :courseLevel here, not :level (which throws
+      // ORA-01745: invalid host/bind variable name).
+      sql += " AND c.course_level = :courseLevel";
+      binds.courseLevel = level;
     }
     if (status) {
       sql += " AND c.published_status = :status";
@@ -201,10 +216,12 @@ class OracleEngine {
     const courseId = await this._withConn(async (conn) => {
       const result = await conn.execute(
         `INSERT INTO courses (category_id, lecturer_id, course_title, course_level, price, duration_hours, published_status)
-         VALUES (:categoryId, :lecturerId, :title, :level, :price, :durationHours, :status)
+         VALUES (:categoryId, :lecturerId, :title, :courseLevel, :price, :durationHours, :status)
          RETURNING course_id INTO :outId`,
         {
-          categoryId, lecturerId, title, level, price, durationHours,
+          categoryId, lecturerId, title,
+          courseLevel: level,
+          price, durationHours,
           status: status || "DRAFT",
           outId: { type: this.oracledb.NUMBER, dir: this.oracledb.BIND_OUT }
         }
@@ -214,14 +231,16 @@ class OracleEngine {
 
     const lessonList = Array.isArray(lessons) && lessons.length ? lessons : ["Introduction"];
     await this._withConn(async (conn) => {
-      let order = 1;
+      let lessonOrder = 1;
       for (const lessonTitle of lessonList) {
+        // NOTE: "ORDER" is also an Oracle reserved word, so the bind
+        // variable is named :lessonOrder here, not :order.
         // eslint-disable-next-line no-await-in-loop
         await conn.execute(
-          `INSERT INTO lessons (course_id, lesson_title, lesson_order, estimated_minutes) VALUES (:courseId, :lessonTitle, :order, 30)`,
-          { courseId, lessonTitle, order }
+          `INSERT INTO lessons (course_id, lesson_title, lesson_order, estimated_minutes) VALUES (:courseId, :lessonTitle, :lessonOrder, 30)`,
+          { courseId, lessonTitle, lessonOrder }
         );
-        order += 1;
+        lessonOrder += 1;
       }
     });
 
@@ -231,9 +250,11 @@ class OracleEngine {
   async updateCourse(id, { title, level, price, durationHours, status }) {
     await this._withConn((conn) =>
       conn.execute(
-        `BEGIN courseconnect_pkg.update_course(:id, :title, :level, :price, :durationHours, :status); END;`,
+        `BEGIN courseconnect_pkg.update_course(:id, :title, :courseLevel, :price, :durationHours, :status); END;`,
         {
-          id, title: title ?? null, level: level ?? null, price: price ?? null,
+          id, title: title ?? null,
+          courseLevel: level ?? null,
+          price: price ?? null,
           durationHours: durationHours ?? null, status: status ?? null
         }
       )
