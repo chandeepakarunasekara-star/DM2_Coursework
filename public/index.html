@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CourseConnect &mdash; Registrar Console</title>
+<title>CourseConnect </title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -14,8 +14,8 @@
 <!-- ======================= AUTH SCREEN ======================= -->
 <div id="auth-screen">
   <div class="auth-card">
-    <div class="brand"><span class="mark">CourseConnect</span><span class="tag">registrar</span></div>
-    <div class="brand-strap">Course catalogue, enrollment &amp; progress ledger</div>
+    <div class="brand"><span class="mark">CourseConnect</span></div>
+    
 
     <div class="auth-tabs">
       <button type="button" class="active" data-authtab="login">Sign in</button>
@@ -37,12 +37,7 @@
       <button class="btn teal" type="submit" style="width:100%">Create student account</button>
     </form>
 
-    <div class="demo-accounts">
-      Demo accounts &mdash; password for all: <code>password123</code>
-      <button type="button" data-demo="admin@courseconnect.edu">admin@courseconnect.edu &middot; Admin</button>
-      <button type="button" data-demo="amara@courseconnect.edu">amara@courseconnect.edu &middot; Lecturer</button>
-      <button type="button" data-demo="kavindu@example.com">kavindu@example.com &middot; Student</button>
-    </div>
+    
   </div>
 </div>
 
@@ -50,30 +45,27 @@
 <div id="app">
   <aside class="sidebar">
     <div class="brand"><span class="mark">CourseConnect</span></div>
-    <div class="brand-sub">registrar console</div>
+   
 
     <nav class="primary-nav" id="primary-nav">
-      <span class="nav-group-label">Overview</span>
+      
       <button class="nav-btn" data-view="dashboard"><span class="glyph">01</span>Dashboard</button>
       <button class="nav-btn" data-view="catalogue"><span class="glyph">02</span>Course catalogue</button>
 
       <span class="nav-group-label" data-role="STUDENT">Learning</span>
       <button class="nav-btn" data-view="mylearning" data-role="STUDENT"><span class="glyph">03</span>My learning</button>
 
-      <span class="nav-group-label">Community</span>
-      <button class="nav-btn" data-view="community"><span class="glyph">04</span>Reviews &amp; forums</button>
+      
+      <button class="nav-btn" data-view="community"><span class="glyph">03</span>Reviews &amp; forums</button>
 
-      <span class="nav-group-label" data-role="ADMIN,LECTURER">Operations</span>
-      <button class="nav-btn" data-view="enrollments" data-role="ADMIN,LECTURER"><span class="glyph">05</span>Enrollments</button>
-      <button class="nav-btn" data-view="payments" data-role="ADMIN"><span class="glyph">06</span>Payments</button>
-      <button class="nav-btn" data-view="people" data-role="ADMIN,LECTURER"><span class="glyph">07</span>Lecturers &amp; students</button>
-      <button class="nav-btn" data-view="reports" data-role="ADMIN,LECTURER"><span class="glyph">08</span>Business reports</button>
+      
+      <button class="nav-btn" data-view="enrollments" data-role="ADMIN,LECTURER"><span class="glyph">04</span>Enrollments</button>
+      <button class="nav-btn" data-view="payments" data-role="ADMIN"><span class="glyph">05</span>Payments</button>
+      <button class="nav-btn" data-view="people" data-role="ADMIN,LECTURER"><span class="glyph">06</span>Lecturers &amp; students</button>
+      <button class="nav-btn" data-view="reports" data-role="ADMIN,LECTURER"><span class="glyph">07</span>Business reports</button>
     </nav>
 
-    <div class="sidebar-foot">
-      <div id="db-modes"></div>
-      <div style="margin-top:8px">Oracle schema + PL/SQL &middot; MongoDB documents</div>
-    </div>
+   
   </aside>
 
   <div class="main-col">
@@ -89,16 +81,16 @@
     <!-- ---------------- DASHBOARD ---------------- -->
     <section class="view" id="view-dashboard">
       <div class="view-head">
-        <div><span class="eyebrow">Snapshot</span><h1>Platform dashboard</h1><p class="lede">Live counts from the relational ledger, blended with MongoDB review sentiment.</p></div>
+        <div><h1>Platform dashboard</h1></div>
       </div>
       <div class="kpi-grid" id="kpi-grid"></div>
       <div class="two-col">
         <div class="card card-pad">
-          <div class="section-title"><h3>Most enrolled courses</h3><span class="hint">PL/SQL report 1</span></div>
+          <div class="section-title"><h3>Most enrolled courses</h3></div>
           <table class="data" id="dash-top-courses"></table>
         </div>
         <div class="card card-pad">
-          <div class="section-title"><h3>Top rated (MongoDB)</h3><span class="hint">aggregation pipeline</span></div>
+          <div class="section-title"><h3>Top rated </h3></div>
           <table class="data" id="dash-top-rated"></table>
         </div>
       </div>
@@ -107,7 +99,7 @@
     <!-- ---------------- CATALOGUE ---------------- -->
     <section class="view" id="view-catalogue">
       <div class="view-head">
-        <div><span class="eyebrow">Catalogue</span><h1>Course listing</h1><p class="lede">Browse published courses across technology, business, and creative arts.</p></div>
+        <div><span class="eyebrow">Catalogue</span><h1>Course listing</h1></div>
         <button class="btn teal" id="new-course-btn" data-role="ADMIN">+ New course</button>
       </div>
       <div class="filter-row">
@@ -146,7 +138,7 @@
     <!-- ---------------- COMMUNITY (reviews + forum) ---------------- -->
     <section class="view" id="view-community">
       <div class="view-head">
-        <div><span class="eyebrow">MongoDB</span><h1>Reviews &amp; discussion</h1><p class="lede">Flexible, schema-free content: ratings, open feedback, and threaded Q&amp;A.</p></div>
+        <div><h1>Reviews &amp; discussion</h1></div>
       </div>
       <div class="tabs-inline">
         <button class="active" data-ctab="reviews">Top rated</button>
@@ -170,32 +162,11 @@
       </div>
     </section>
 
-    <!-- ---------------- ENROLLMENTS (staff) ---------------- -->
-    <section class="view" id="view-enrollments">
-      <div class="view-head">
-        <div><span class="eyebrow">Operations</span><h1>Enrollments</h1><p class="lede">Every active, completed, and cancelled registration.</p></div>
-      </div>
-      <div class="card card-pad"><table class="data" id="enrollments-table"></table></div>
-    </section>
 
-    <!-- ---------------- PAYMENTS (admin) ---------------- -->
-    <section class="view" id="view-payments">
-      <div class="view-head">
-        <div><span class="eyebrow">Operations</span><h1>Payment processing</h1><p class="lede">Every transaction, its status, and reference.</p></div>
-      </div>
-      <div class="filter-row">
-        <select id="payment-status-filter">
-          <option value="">All statuses</option>
-          <option>PAID</option><option>PENDING</option><option>FAILED</option><option>REFUNDED</option>
-        </select>
-      </div>
-      <div class="card card-pad"><table class="data" id="payments-table"></table></div>
-    </section>
-
-    <!-- ---------------- PEOPLE (lecturers + students admin) ---------------- -->
+        <!-- ---------------- PEOPLE (lecturers + students admin) ---------------- -->
     <section class="view" id="view-people">
       <div class="view-head">
-        <div><span class="eyebrow">Operations</span><h1>Lecturers &amp; students</h1><p class="lede">Manage platform accounts.</p></div>
+        <div><h1>Lecturers &amp; students</h1></div>
       </div>
       <div class="tabs-inline">
         <button class="active" data-ptab="lecturers">Lecturers</button>
@@ -210,11 +181,35 @@
         <div class="card card-pad"><table class="data" id="students-table"></table></div>
       </div>
     </section>
+    
+    <!-- ---------------- ENROLLMENTS (staff) ---------------- -->
+    <section class="view" id="view-enrollments">
+      <div class="view-head">
+        <div><h1>Enrollments</h1><p class="lede">Every active, completed, and cancelled registration.</p></div>
+      </div>
+      <div class="card card-pad"><table class="data" id="enrollments-table"></table></div>
+    </section>
+
+    <!-- ---------------- PAYMENTS (admin) ---------------- -->
+    <section class="view" id="view-payments">
+      <div class="view-head">
+        <div><h1>Payment processing</h1></div>
+      </div>
+      <div class="filter-row">
+        <select id="payment-status-filter">
+          <option value="">All statuses</option>
+          <option>PAID</option><option>PENDING</option><option>FAILED</option><option>REFUNDED</option>
+        </select>
+      </div>
+      <div class="card card-pad"><table class="data" id="payments-table"></table></div>
+    </section>
+
+
 
     <!-- ---------------- REPORTS ---------------- -->
     <section class="view" id="view-reports">
       <div class="view-head">
-        <div><span class="eyebrow">PL/SQL + hybrid</span><h1>Business reports</h1><p class="lede">Five relational reports required by the brief, plus a hybrid Oracle &times; MongoDB course-health report.</p></div>
+        <div><h1>Business reports</h1></div>
       </div>
       <div class="tabs-inline" id="report-tabs">
         <button class="active" data-report="popular-courses">Popular courses</button>

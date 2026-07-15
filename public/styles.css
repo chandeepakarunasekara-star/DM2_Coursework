@@ -269,6 +269,7 @@ table.data th {
 table.data td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
 table.data tbody tr:hover { background: var(--parchment-deep); }
 table.data td.num, table.data th.num { text-align: right; font-family: var(--font-mono); }
+table.data td:has(.empty-state) { border-bottom: none; padding: 0; }
 
 .status-chip {
   display: inline-block;

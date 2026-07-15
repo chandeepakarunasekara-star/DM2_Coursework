@@ -87,10 +87,10 @@
   function renderTable(target, columns, rows, emptyMsg = "No records yet.") {
     const t = typeof target === "string" ? document.getElementById(target) : target;
     if (!rows || !rows.length) {
-      t.innerHTML = "";
-      const wrap = el("div", { class: "empty-state" }, emptyMsg);
-      t.replaceWith(wrap);
-      wrap.id = t.id;
+      // IMPORTANT: keep this element as a real <table> always. Never replace
+      // it with a <div> - doing so permanently breaks the `table.data th/td`
+      // CSS selectors the next time real rows are rendered into the same id.
+      t.innerHTML = `<tbody><tr><td colspan="${columns.length}"><div class="empty-state">${emptyMsg}</div></td></tr></tbody>`;
       return;
     }
     const thead = `<thead><tr>${columns.map((c) => `<th class="${c.num ? "num" : ""}">${c.label}</th>`).join("")}</tr></thead>`;
