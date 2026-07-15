@@ -20,7 +20,7 @@ The web app in this project runs in demo mode without installing packages. The d
 - `public/` - user interface files
 - `database/oracle/` - schema, sample data, PL/SQL package, triggers, and report calls
 - `database/mongodb/` - MongoDB seed data and aggregation queries
-- `docs/` - ER diagram, setup guide, report guide, and project explanation
+- `docs/` - ER diagram, setup guide, report guide, data dictionary, marking checklist, viva guide, and project explanation
 - `presentation/` - presentation outline for viva or slide creation
 
 ## Run the Demo Application
@@ -71,3 +71,12 @@ mongosh < database/mongodb/seed_and_queries.js
 - MongoDB stores flexible content because course resources, reviews, and forum discussions have different shapes and change frequently.
 - The PL/SQL package centralizes business logic close to the relational data.
 - The web application shows how one interface can use both structured and unstructured data.
+
+## Submission Helpers
+
+Use these files before uploading to GitHub or presenting:
+
+- `docs/MARKING_CHECKLIST.md` - confirms each coursework requirement is covered
+- `docs/DATA_DICTIONARY.md` - explains all Oracle tables and MongoDB collections
+- `docs/VIVA_ANSWERS.md` - short answers for common viva questions
+- `docs/INTEGRATION_GUIDE.md` - explains how the demo app would connect to real Oracle and MongoDB drivers
