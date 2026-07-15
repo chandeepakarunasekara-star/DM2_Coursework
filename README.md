@@ -1,82 +1,77 @@
 # CourseConnect
 
-CourseConnect is a coursework-ready online course platform for Data Management 2. It demonstrates a relational Oracle database for structured operations and MongoDB for flexible course content, reviews, and forum discussions.
+CourseConnect is a full-stack online course platform built for the
+"Data Management 2" coursework brief: a relational Oracle database for
+core operations, MongoDB for flexible content, a PL/SQL business layer,
+and a real Node.js/Express web application with a role-based UI on top of
+both.
 
-## What to Build First
+The app **runs immediately** with `npm install && npm start` — no Oracle
+or MongoDB installation required for a demo/grading run. It ships with an
+embedded engine on each side (SQLite mirroring the exact Oracle schema,
+and a JSON store mirroring the exact MongoDB collections) that is used
+automatically until you point it at real Oracle/MongoDB instances via
+environment variables. Business logic, exception codes, trigger
+behaviour, and report queries are identical either way — see
+`docs/INTEGRATION_GUIDE.md`.
 
-Build the Oracle database core first. It carries the highest marks because it proves the system can handle students, lecturers, courses, enrollments, payments, progress tracking, certificates, and PL/SQL business reports.
-
-After that, connect MongoDB for flexible content:
-
-- Lecture notes, videos, resources, and supplementary material
-- Student reviews and ratings
-- Forum questions, answers, and discussions
-
-The web app in this project runs in demo mode without installing packages. The database scripts are ready for Oracle SQL Developer and MongoDB Shell.
-
-## Project Contents
-
-- `src/` - Node.js web server and API
-- `public/` - user interface files
-- `database/oracle/` - schema, sample data, PL/SQL package, triggers, and report calls
-- `database/mongodb/` - MongoDB seed data and aggregation queries
-- `docs/` - ER diagram, setup guide, report guide, data dictionary, marking checklist, viva guide, and project explanation
-- `presentation/` - presentation outline for viva or slide creation
-
-## Run the Demo Application
+## Quick start
 
 ```bash
+cd CourseConnect
+npm install
 npm start
 ```
 
-Open:
+Open `http://localhost:3000` and sign in with any demo account shown on
+the login screen (password `password123` for all of them):
 
-```text
-http://localhost:3000
-```
+| Email | Role |
+|---|---|
+| admin@courseconnect.edu | Admin |
+| amara@courseconnect.edu | Lecturer |
+| kavindu@example.com | Student |
 
-The application uses in-memory sample data by default so it can be demonstrated immediately.
+You can also create a new student account from the login screen.
 
-## Oracle Setup
+## What's in the box
 
-Run these files in Oracle SQL Developer in order:
+- **`src/`** — Express API and data-access layer
+  - `src/db/sqliteEngine.js` — embedded relational engine (demo mode), a faithful port of `01_schema.sql` + `03_plsql_package.sql`
+  - `src/db/oracleEngine.js` — real Oracle adapter (`oracledb` driver), calls the actual PL/SQL package
+  - `src/db/jsonDocStore.js` / `src/db/mongoAdapter.js` — same pairing for the document side
+  - `src/routes/` — REST API: auth, courses, lecturers, students, enrollments, payments, progress, reviews, forums, reports, dashboard
+- **`public/`** — the web UI (vanilla HTML/CSS/JS, no build step): dashboard, catalogue, enrollment & progress tracking, payments, admin CRUD, business reports with CSV export, MongoDB-backed reviews & discussion forum
+- **`database/oracle/`** — schema, sample data, PL/SQL package (procedures, functions, cursors, triggers, exception handling), and report calls
+- **`database/mongodb/`** — seed data and aggregation/query examples for the three MongoDB collections
+- **`docs/`** — ER diagram, setup guide, business report guide, data dictionary, marking checklist, viva answers, integration guide
+- **`presentation/`** — outline for the presentation deliverable
 
-1. `database/oracle/01_schema.sql`
-2. `database/oracle/02_sample_data.sql`
-3. `database/oracle/03_plsql_package.sql`
-4. `database/oracle/04_report_calls.sql`
+## Core functionality
 
-## MongoDB Setup
+- Course catalogue management (categories, courses, lessons, publish status)
+- Lecturer and student management (admin CRUD + self-service student sign-up)
+- Enrollment workflow with duplicate/exception handling (`ORA-2000x` style errors)
+- Payment processing with unique transaction references
+- Lesson-by-lesson progress tracking that auto-completes enrollments and issues certificates at 100%
+- Five required PL/SQL business reports, plus a sixth **hybrid Oracle × MongoDB** report ("course health") for the Integration & Innovation criterion
+- MongoDB-backed course resources, student reviews/ratings, and a searchable discussion forum
+- Role-based access (Admin / Lecturer / Student) enforced on both the API and the UI
+- CSV export on every report
 
-Run:
+## Switching to real Oracle / MongoDB
 
-```bash
-mongosh < database/mongodb/seed_and_queries.js
-```
+See `docs/SETUP_GUIDE.md` for the full walkthrough. In short: run the SQL
+scripts against your Oracle instance, `npm install oracledb`, and set
+`ORACLE_USER` / `ORACLE_PASSWORD` / `ORACLE_CONNECT_STRING` in a `.env`
+file (copy `.env.example`). For MongoDB, just set `MONGODB_URI` — the app
+seeds the collections automatically on first connect. The server logs
+which engine is active on startup.
 
-## Main Features
+## Submission helpers
 
-- Course catalogue dashboard
-- Lecturer and student management model
-- Enrollment and course registration logic
-- Payment status tracking
-- Student progress and completion tracking
-- Oracle PL/SQL triggers, functions, procedures, cursors, and exceptions
-- Five business reports
-- MongoDB reviews, resources, and forum query examples
-
-## Viva Talking Points
-
-- Oracle stores transactional data because it needs strong consistency, relationships, constraints, and reporting.
-- MongoDB stores flexible content because course resources, reviews, and forum discussions have different shapes and change frequently.
-- The PL/SQL package centralizes business logic close to the relational data.
-- The web application shows how one interface can use both structured and unstructured data.
-
-## Submission Helpers
-
-Use these files before uploading to GitHub or presenting:
-
-- `docs/MARKING_CHECKLIST.md` - confirms each coursework requirement is covered
-- `docs/DATA_DICTIONARY.md` - explains all Oracle tables and MongoDB collections
-- `docs/VIVA_ANSWERS.md` - short answers for common viva questions
-- `docs/INTEGRATION_GUIDE.md` - explains how the demo app would connect to real Oracle and MongoDB drivers
+- `docs/MARKING_CHECKLIST.md` — confirms each coursework requirement is covered
+- `docs/DATA_DICTIONARY.md` — explains all Oracle tables and MongoDB collections
+- `docs/VIVA_ANSWERS.md` — short answers for common viva questions
+- `docs/INTEGRATION_GUIDE.md` — how the app talks to Oracle/MongoDB (and the embedded fallbacks)
+- `docs/ER_DIAGRAM.md` / `docs/BUSINESS_REPORTS.md` — schema and report reference

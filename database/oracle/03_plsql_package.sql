@@ -5,6 +5,17 @@ CREATE OR REPLACE PACKAGE courseconnect_pkg AS
   PROCEDURE record_payment(p_enrollment_id IN NUMBER, p_amount IN NUMBER, p_method IN VARCHAR2, p_transaction_ref IN VARCHAR2);
   PROCEDURE update_progress(p_enrollment_id IN NUMBER, p_lesson_id IN NUMBER, p_quiz_score IN NUMBER);
 
+  PROCEDURE update_course(p_course_id IN NUMBER, p_title IN VARCHAR2 DEFAULT NULL, p_level IN VARCHAR2 DEFAULT NULL,
+                          p_price IN NUMBER DEFAULT NULL, p_duration_hours IN NUMBER DEFAULT NULL, p_status IN VARCHAR2 DEFAULT NULL);
+  PROCEDURE delete_course(p_course_id IN NUMBER);
+
+  PROCEDURE update_lecturer(p_lecturer_id IN NUMBER, p_full_name IN VARCHAR2 DEFAULT NULL,
+                            p_expertise IN VARCHAR2 DEFAULT NULL, p_status IN VARCHAR2 DEFAULT NULL);
+  PROCEDURE delete_lecturer(p_lecturer_id IN NUMBER);
+
+  PROCEDURE update_student(p_student_id IN NUMBER, p_full_name IN VARCHAR2 DEFAULT NULL, p_status IN VARCHAR2 DEFAULT NULL);
+  PROCEDURE delete_student(p_student_id IN NUMBER);
+
   FUNCTION get_course_revenue(p_course_id IN NUMBER) RETURN NUMBER;
   FUNCTION get_completion_percent(p_enrollment_id IN NUMBER) RETURN NUMBER;
 
@@ -80,6 +91,96 @@ CREATE OR REPLACE PACKAGE BODY courseconnect_pkg AS
     WHEN OTHERS THEN
       RAISE_APPLICATION_ERROR(-20005, 'Progress update failed: ' || SQLERRM);
   END update_progress;
+
+  PROCEDURE update_course(p_course_id IN NUMBER, p_title IN VARCHAR2 DEFAULT NULL, p_level IN VARCHAR2 DEFAULT NULL,
+                          p_price IN NUMBER DEFAULT NULL, p_duration_hours IN NUMBER DEFAULT NULL, p_status IN VARCHAR2 DEFAULT NULL) AS
+  BEGIN
+    UPDATE courses
+    SET course_title = NVL(p_title, course_title),
+        course_level = NVL(p_level, course_level),
+        price = NVL(p_price, price),
+        duration_hours = NVL(p_duration_hours, duration_hours),
+        published_status = NVL(p_status, published_status)
+    WHERE course_id = p_course_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      RAISE_APPLICATION_ERROR(-20006, 'Course not found.');
+    END IF;
+  END update_course;
+
+  PROCEDURE delete_course(p_course_id IN NUMBER) AS
+    v_enrollment_count NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO v_enrollment_count FROM enrollments WHERE course_id = p_course_id;
+    IF v_enrollment_count > 0 THEN
+      RAISE_APPLICATION_ERROR(-20010, 'Cannot delete a course that already has enrollments - archive it instead.');
+    END IF;
+
+    DELETE FROM lessons WHERE course_id = p_course_id;
+    DELETE FROM courses WHERE course_id = p_course_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      RAISE_APPLICATION_ERROR(-20006, 'Course not found.');
+    END IF;
+  END delete_course;
+
+  PROCEDURE update_lecturer(p_lecturer_id IN NUMBER, p_full_name IN VARCHAR2 DEFAULT NULL,
+                            p_expertise IN VARCHAR2 DEFAULT NULL, p_status IN VARCHAR2 DEFAULT NULL) AS
+  BEGIN
+    UPDATE lecturers
+    SET full_name = NVL(p_full_name, full_name),
+        expertise = NVL(p_expertise, expertise),
+        status = NVL(p_status, status)
+    WHERE lecturer_id = p_lecturer_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      RAISE_APPLICATION_ERROR(-20006, 'Lecturer not found.');
+    END IF;
+  END update_lecturer;
+
+  PROCEDURE delete_lecturer(p_lecturer_id IN NUMBER) AS
+    v_course_count NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO v_course_count FROM courses WHERE lecturer_id = p_lecturer_id;
+    IF v_course_count > 0 THEN
+      RAISE_APPLICATION_ERROR(-20011, 'Cannot delete a lecturer who still has courses assigned - reassign or archive their courses first.');
+    END IF;
+
+    DELETE FROM users WHERE linked_lecturer_id = p_lecturer_id;
+    DELETE FROM lecturers WHERE lecturer_id = p_lecturer_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      RAISE_APPLICATION_ERROR(-20006, 'Lecturer not found.');
+    END IF;
+  END delete_lecturer;
+
+  PROCEDURE update_student(p_student_id IN NUMBER, p_full_name IN VARCHAR2 DEFAULT NULL, p_status IN VARCHAR2 DEFAULT NULL) AS
+  BEGIN
+    UPDATE students
+    SET full_name = NVL(p_full_name, full_name),
+        status = NVL(p_status, status)
+    WHERE student_id = p_student_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      RAISE_APPLICATION_ERROR(-20006, 'Student not found.');
+    END IF;
+  END update_student;
+
+  PROCEDURE delete_student(p_student_id IN NUMBER) AS
+    v_enrollment_count NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO v_enrollment_count FROM enrollments WHERE student_id = p_student_id;
+    IF v_enrollment_count > 0 THEN
+      RAISE_APPLICATION_ERROR(-20012, 'Cannot delete a student with enrollment history - suspend the account instead.');
+    END IF;
+
+    DELETE FROM users WHERE linked_student_id = p_student_id;
+    DELETE FROM students WHERE student_id = p_student_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+      RAISE_APPLICATION_ERROR(-20006, 'Student not found.');
+    END IF;
+  END delete_student;
 
   FUNCTION get_course_revenue(p_course_id IN NUMBER) RETURN NUMBER AS
     v_revenue NUMBER;

@@ -1,6 +1,9 @@
 # Real Database Integration Guide
 
-The included web app runs in demo mode so it can be shown immediately. For a production-style version, use this approach.
+The app runs in demo mode by default (embedded SQLite + embedded JSON
+store) so it can be shown immediately without installing anything. It
+also ships with real Oracle and MongoDB adapters already wired up — this
+guide explains how the switch works.
 
 ## Oracle Connection
 
@@ -10,7 +13,7 @@ Install the Oracle Node.js driver:
 npm install oracledb
 ```
 
-Create a `.env` file:
+Create a `.env` file (copy `.env.example`):
 
 ```text
 ORACLE_USER=courseconnect
@@ -18,35 +21,36 @@ ORACLE_PASSWORD=your_password
 ORACLE_CONNECT_STRING=localhost/XEPDB1
 ```
 
-Recommended app flow:
+What happens automatically once these are set (see `src/db/relational.js`
+and `src/db/oracleEngine.js`):
 
-1. Keep Oracle tables and PL/SQL package from `database/oracle`.
-2. Create a service file that connects using `oracledb`.
-3. Call `courseconnect_pkg` procedures from the Node.js service.
-4. Use ref cursors to return report data to the API.
+1. The app keeps using the Oracle tables and PL/SQL package from `database/oracle`.
+2. `src/db/oracleEngine.js` connects using `oracledb` and a connection pool.
+3. Every business operation (`enrollStudent`, `recordPayment`, `updateProgress`) calls the matching `courseconnect_pkg` procedure with `BEGIN ... END;` blocks.
+4. The five reports call the package's ref-cursor-returning procedures and stream rows back through the same REST API the UI already uses — no frontend changes needed.
+5. Oracle error codes (`ORA-20001` … `ORA-20009`) are parsed out of the driver error and returned as normal JSON API errors.
 
 ## MongoDB Connection
 
-Install the MongoDB Node.js driver:
-
-```bash
-npm install mongodb
-```
-
-Add to `.env`:
+The `mongodb` driver is already a project dependency. Add to `.env`:
 
 ```text
 MONGODB_URI=mongodb://127.0.0.1:27017
-MONGODB_DATABASE=courseconnect
+MONGODB_DB=courseconnect
 ```
 
-Recommended app flow:
+What happens automatically (see `src/db/documents.js` and
+`src/db/mongoAdapter.js`):
 
-1. Use Oracle for structured operations.
-2. Use MongoDB for resources, reviews, and discussion threads.
-3. Store the Oracle `course_id` value as `courseId` in MongoDB documents.
-4. Join the two data sources in the application service layer when needed.
+1. Oracle (or the SQLite fallback) still owns structured operations.
+2. MongoDB owns `courseResources`, `courseReviews`, and `discussionThreads`.
+3. The Oracle/SQLite `course_id` value is stored as `courseId` on every MongoDB document, which is what makes the hybrid "course health" report (`/api/reports/hybrid-course-health`) possible — it joins relational revenue/enrollment figures with MongoDB's aggregated rating in the application layer.
+4. On first connect to an empty database, the app seeds all three collections from the same dataset used everywhere else (`src/seedData.js`), so you don't have to run `seed_and_queries.js` by hand — though you still can, for the mongosh-based demo.
 
-## Why Demo Mode Is Still Useful
+## Why demo mode is still useful
 
-Demo mode lets the project run during presentation even if Oracle or MongoDB are not installed on the lecturer's machine. The database scripts still prove the required database implementation.
+Demo mode lets the project run during presentation even if Oracle or
+MongoDB are not installed on the grader's machine, with identical
+business logic and identical API responses. The SQL/JS database scripts
+in `database/` are the real, gradable artifacts; the embedded engines are
+a drop-in stand-in so the *application* can always be demonstrated live.

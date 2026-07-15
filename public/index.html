@@ -1,569 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CourseConnect - Oracle & MongoDB L&D Platform</title>
-    <meta name="description" content="CourseConnect is a hybrid learning platform demonstrating Oracle Database schema operations (PL/SQL packages, triggers, cursors) and MongoDB flexible collections.">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <!-- App Container -->
-    <div class="app-container">
-      
-      <!-- Topbar Header -->
-      <header class="app-header">
-        <div class="logo">
-          <div class="logo-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <div>
-            <h1>CourseConnect</h1>
-            <p class="tagline">Enterprise Oracle SQL & MongoDB Hybrid Platform</p>
-          </div>
-        </div>
-        <div class="header-actions">
-          <div class="accent-badge">
-            <span class="pulse-dot"></span>
-            <strong>Simulator Connected</strong>
-          </div>
-          <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
-            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.22" x2="5.64" y2="17.78"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          </button>
-        </div>
-      </header>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CourseConnect &mdash; Registrar Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
 
-      <!-- Layout Grid -->
-      <div class="app-layout">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-          <nav class="side-nav" aria-label="Main Navigation">
-            <button class="nav-item active" data-tab="dashboard-tab" id="nav-dashboard">
-              <span class="icon">📊</span>
-              <span>Overview Dashboard</span>
-            </button>
-            <button class="nav-item" data-tab="courses-tab" id="nav-courses">
-              <span class="icon">📚</span>
-              <span>Course Catalogue</span>
-            </button>
-            <button class="nav-item" data-tab="enrollments-tab" id="nav-enrollments">
-              <span class="icon">💳</span>
-              <span>Enrollments & Payments</span>
-            </button>
-            <button class="nav-item" data-tab="progress-tab" id="nav-progress">
-              <span class="icon">📈</span>
-              <span>Progress Tracker</span>
-            </button>
-            <button class="nav-item" data-tab="reports-tab" id="nav-reports">
-              <span class="icon">📋</span>
-              <span>PL/SQL SQL Reports</span>
-            </button>
-            <button class="nav-item" data-tab="docs-tab" id="nav-docs">
-              <span class="icon">📖</span>
-              <span>Architecture & EER</span>
-            </button>
-          </nav>
-          <div class="sidebar-info">
-            <div class="tech-stack-row">
-              <span class="tech-badge oracle">Oracle DB</span>
-              <span class="tech-badge mongo">MongoDB</span>
-            </div>
-            <p>Coursework Assignment</p>
-          </div>
-        </aside>
+<!-- ======================= AUTH SCREEN ======================= -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="brand"><span class="mark">CourseConnect</span><span class="tag">registrar</span></div>
+    <div class="brand-strap">Course catalogue, enrollment &amp; progress ledger</div>
 
-        <!-- Main Workspace -->
-        <main class="main-content">
-          
-          <!-- TAB 1: DASHBOARD -->
-          <section id="dashboard-tab" class="tab-panel active">
-            <div class="view-heading">
-              <div>
-                <p class="eyebrow">Platform Overview</p>
-                <h2>System Analytics & KPIs</h2>
-              </div>
-              <div class="timestamp" id="live-time">Loaded</div>
-            </div>
-            
-            <!-- Dashboard Cards Grid -->
-            <div class="kpi-grid" id="kpi-dashboard">
-              <!-- Dynamically Populated -->
-            </div>
-
-            <!-- Dashboard Split View -->
-            <div class="dashboard-split">
-              <!-- Popular Course Section -->
-              <div class="glass-panel">
-                <h3>🔥 High Demand Course Tracks</h3>
-                <p class="panel-desc">Ranked dynamically by total enrollment count and actual collected revenue (Oracle DB aggregate).</p>
-                <div class="popular-list" id="popular-courses-list">
-                  <!-- Dynamically populated -->
-                </div>
-              </div>
-
-              <!-- Quick Operations Overview -->
-              <div class="glass-panel text-panel">
-                <h3>⚙️ CourseConnect Hybrid Architecture</h3>
-                <div class="flow-steps">
-                  <div class="step-card">
-                    <div class="step-num">1</div>
-                    <div class="step-body">
-                      <strong>Oracle Database Core</strong>
-                      <p>Secures courses, student logs, enrollments, billing payments, and issues certified credentials with integrity rules.</p>
-                    </div>
-                  </div>
-                  <div class="step-card">
-                    <div class="step-num">2</div>
-                    <div class="step-body">
-                      <strong>MongoDB Storage Engine</strong>
-                      <p>Saves complex lecture files, binary files links, course ratings, student reviews, and discussion boards dynamically.</p>
-                    </div>
-                  </div>
-                  <div class="step-card">
-                    <div class="step-num">3</div>
-                    <div class="step-body">
-                      <strong>Application Aggregator</strong>
-                      <p>Unifies both databases using real-time API integrations for combined search and business analytical reporting.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- TAB 2: COURSE CATALOGUE -->
-          <section id="courses-tab" class="tab-panel">
-            <div class="view-heading">
-              <div>
-                <p class="eyebrow">Interactive Catalogue</p>
-                <h2>Explore Digital Course Tracks</h2>
-              </div>
-              <div class="filter-bar">
-                <button class="filter-btn active" data-level="all">All Levels</button>
-                <button class="filter-btn" data-level="Beginner">Beginner</button>
-                <button class="filter-btn" data-level="Intermediate">Intermediate</button>
-              </div>
-            </div>
-
-            <!-- Course Catalogue Grid -->
-            <div class="course-grid" id="course-cards-container">
-              <!-- Dynamically populated -->
-            </div>
-          </section>
-
-          <!-- TAB 3: ENROLLMENTS & PAYMENTS -->
-          <section id="enrollments-tab" class="tab-panel">
-            <div class="view-heading">
-              <div>
-                <p class="eyebrow">Relational Operations</p>
-                <h2>Student Registrations & Payment Ledger</h2>
-              </div>
-            </div>
-
-            <div class="split-view">
-              <!-- Left panel: Registration -->
-              <div class="glass-panel">
-                <h3>🎟️ Register Student to Course</h3>
-                <p class="panel-desc">Simulates PL/SQL procedure `courseconnect_pkg.enroll_student` (inserts registration, generates fee invoice).</p>
-                <form id="enrollment-form-main" class="form-layout">
-                  <div class="form-group">
-                    <label for="student-select">Student Profile</label>
-                    <select id="student-select" required></select>
-                  </div>
-                  <div class="form-group">
-                    <label for="course-select">Choose Course</label>
-                    <select id="course-select" required></select>
-                  </div>
-                  <button type="submit" class="primary-btn">Complete Registration</button>
-                  <div id="enrollment-status-msg" class="form-feedback"></div>
-                </form>
-              </div>
-
-              <!-- Right panel: Payment Processing -->
-              <div class="glass-panel">
-                <h3>💳 Process Outstanding Payments</h3>
-                <p class="panel-desc">Simulates `courseconnect_pkg.record_payment` and executes the `trg_payment_paid_date` trigger.</p>
-                <div class="payment-ledger-container">
-                  <table class="data-table" id="payments-ledger-table">
-                    <thead>
-                      <tr>
-                        <th>Enrollment</th>
-                        <th>Student</th>
-                        <th>Course</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="payments-ledger-body">
-                      <!-- Dynamically populated -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- TAB 4: PROGRESS TRACKER -->
-          <section id="progress-tab" class="tab-panel">
-            <div class="view-heading">
-              <div>
-                <p class="eyebrow">Student Performance</p>
-                <h2>Track Course Progress & Certifications</h2>
-              </div>
-            </div>
-
-            <div class="progress-split">
-              <!-- Selection Area -->
-              <div class="glass-panel sidebar-panel">
-                <h3>🔍 Choose Enrolled Student</h3>
-                <div class="form-group">
-                  <select id="progress-student-select" aria-label="Select student to view progress"></select>
-                </div>
-                <div class="enrolled-courses-list" id="progress-enrollments-list">
-                  <!-- Dynamically populated list of student enrollments -->
-                </div>
-              </div>
-
-              <!-- Progress Tracking detail panel -->
-              <div class="glass-panel details-panel" id="progress-details-panel">
-                <div class="empty-state">
-                  <p>Select a student enrollment on the left to track progress, complete quizzes, and view earned certifications.</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- TAB 5: PL/SQL REPORTS -->
-          <section id="reports-tab" class="tab-panel">
-            <div class="view-heading">
-              <div>
-                <p class="eyebrow">Oracle Stored Cursors</p>
-                <h2>Execution Environment for PL/SQL Business Reports</h2>
-              </div>
-            </div>
-
-            <div class="reports-container">
-              <!-- Report Selector sidebar -->
-              <div class="report-menu">
-                <button class="report-menu-item active" data-report="popular">
-                  <strong>1. Popular Courses</strong>
-                  <span>Ranks by enrollments & revenues</span>
-                </button>
-                <button class="report-menu-item" data-report="revenue">
-                  <strong>2. Revenue by Period</strong>
-                  <span>Filter sales by start/end dates</span>
-                </button>
-                <button class="report-menu-item" data-report="progress">
-                  <strong>3. Student Progress</strong>
-                  <span>Grades & completion percentage</span>
-                </button>
-                <button class="report-menu-item" data-report="pending">
-                  <strong>4. Pending Payments</strong>
-                  <span>Lists unpaid fees follow-ups</span>
-                </button>
-                <button class="report-menu-item" data-report="lecturer">
-                  <strong>5. Lecturer Performance</strong>
-                  <span>Aggregated instructor quality metrics</span>
-                </button>
-              </div>
-
-              <!-- Report Display & Parameter Panel -->
-              <div class="report-display glass-panel">
-                <div class="report-header-row">
-                  <h3 id="selected-report-title">Popular Courses</h3>
-                  <div class="report-parameters" id="report-params-container">
-                    <!-- Dynamic Parameter Inputs -->
-                  </div>
-                  <button id="run-report-btn" class="run-btn">Execute Cursor</button>
-                </div>
-                <div class="report-results" id="report-results-table-container">
-                  <!-- Report Output Table -->
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- TAB 6: DOCS & ARCHITECTURE -->
-          <section id="docs-tab" class="tab-panel">
-            <div class="view-heading">
-              <div>
-                <p class="eyebrow">Project Design</p>
-                <h2>Relational Entity-Relationship (EER) Model & MongoDB Schema</h2>
-              </div>
-            </div>
-
-            <!-- Tabs inside Docs -->
-            <div class="docs-tabs-container">
-              <div class="docs-tab-header">
-                <button class="docs-tab-btn active" data-doc="eer">Relational EER Diagram</button>
-                <button class="docs-tab-btn" data-doc="dictionary">Data Dictionary</button>
-                <button class="docs-tab-btn" data-doc="integration">MongoDB Aggregations</button>
-              </div>
-
-              <!-- Doc Panels -->
-              <div class="docs-tab-content">
-                <!-- EER -->
-                <div class="docs-panel active" id="doc-eer">
-                  <div class="grid-2">
-                    <div class="glass-panel">
-                      <h3>Entity Relationship Design</h3>
-                      <p>The Oracle database utilizes a third-normal-form (3NF) relational schema designed to guarantee transactional integrity and support atomic academic operations.</p>
-                      
-                      <div class="eer-list">
-                        <div class="eer-item">
-                          <strong>CATEGORIES & COURSES</strong>
-                          <p>One-to-many relationship: A category classifies multiple courses; a course belongs to exactly one category.</p>
-                        </div>
-                        <div class="eer-item">
-                          <strong>LECTURERS & COURSES</strong>
-                          <p>One-to-many relationship: An instructor can teach multiple courses; each course is taught by one lecturer.</p>
-                        </div>
-                        <div class="eer-item">
-                          <strong>STUDENTS, ENROLLMENTS & COURSES</strong>
-                          <p>Many-to-many relationship resolved through the associative entity <code>ENROLLMENTS</code>. Backed by unique index composite keys to prevent duplicate active student registrations.</p>
-                        </div>
-                        <div class="eer-item">
-                          <strong>ENROLLMENTS & PAYMENTS</strong>
-                          <p>One-to-many relationship: Tracks the enrollment fee. Simulates invoicing and records payments with bank transaction references.</p>
-                        </div>
-                        <div class="eer-item">
-                          <strong>ENROLLMENTS & CERTIFICATES</strong>
-                          <p>One-to-one relationship: A student earns exactly one unique digital certificate upon reaching 100% lesson progress, enforced by unique keys and PL/SQL database triggers.</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="glass-panel">
-                      <h3>Relational Structure Definition</h3>
-                      <div class="eer-diagram-code">
-                        <pre>
-  +---------------+        +---------------+
-  |   CATEGORIES  |        |   LECTURERS   |
-  +---------------+        +---------------+
-          |                        |
-          +-----------+------------+
-                      | 1:N
-                      v
-              +---------------+
-              |    COURSES    |
-              +---------------+
-                      | 1:N
-                      v
-              +---------------+
-              |   LESSONS     |
-              +---------------+
-                      | 1:N
-                      v
-  +---------------+ 1|1:N +---------------+
-  |   STUDENTS    |--+--->|  ENROLLMENTS  |
-  +---------------+       +---------------+
-                             |    | 1:1  | 1:N
-                             |    v      v
-                             | +--------------+
-                             | | CERTIFICATES |
-                             | +--------------+
-                             v
-                       +--------------+
-                       |   PAYMENTS   |
-                       +--------------+
-                        </pre>
-                      </div>
-                      <div class="alert-box note">
-                        <strong>💡 Coursework Highlights</strong>
-                        <p>Our schema enforces constraints such as checks on payment amounts (<code>>= 0</code>), course prices (<code>>= 0</code>), student statuses, and unique indexes to defend against corrupted data values.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Dictionary -->
-                <div class="docs-panel" id="doc-dictionary">
-                  <div class="glass-panel">
-                    <h3>Schema Dictionary (Oracle Relational Tables)</h3>
-                    <table class="data-table">
-                      <thead>
-                        <tr>
-                          <th>Table Name</th>
-                          <th>Primary Key</th>
-                          <th>Foreign Keys</th>
-                          <th>Core Constraints & Notes</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><strong>CATEGORIES</strong></td>
-                          <td>category_id</td>
-                          <td>None</td>
-                          <td>category_name is UNIQUE and NOT NULL.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>LECTURERS</strong></td>
-                          <td>lecturer_id</td>
-                          <td>None</td>
-                          <td>email is UNIQUE. status must be 'ACTIVE' or 'INACTIVE'.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>STUDENTS</strong></td>
-                          <td>student_id</td>
-                          <td>None</td>
-                          <td>email is UNIQUE. status check: ACTIVE, SUSPENDED, GRADUATED.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>COURSES</strong></td>
-                          <td>course_id</td>
-                          <td>category_id, lecturer_id</td>
-                          <td>published_status CHECK (DRAFT, PUBLISHED, ARCHIVED). price >= 0 check.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>LESSONS</strong></td>
-                          <td>lesson_id</td>
-                          <td>course_id</td>
-                          <td>lesson_order UNIQUE per course_id (forces ordered module structures).</td>
-                        </tr>
-                        <tr>
-                          <td><strong>ENROLLMENTS</strong></td>
-                          <td>enrollment_id</td>
-                          <td>student_id, course_id</td>
-                          <td>UNIQUE(student_id, course_id) prevents double-registration.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>PAYMENTS</strong></td>
-                          <td>payment_id</td>
-                          <td>enrollment_id</td>
-                          <td>transaction_ref is UNIQUE. payment_status CHECK (PENDING, PAID, etc).</td>
-                        </tr>
-                        <tr>
-                          <td><strong>LESSON_PROGRESS</strong></td>
-                          <td>progress_id</td>
-                          <td>enrollment_id, lesson_id</td>
-                          <td>UNIQUE(enrollment_id, lesson_id). quiz_score checked between 0 and 100.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>CERTIFICATES</strong></td>
-                          <td>certificate_id</td>
-                          <td>enrollment_id</td>
-                          <td>enrollment_id is UNIQUE. certificate_code is UNIQUE.</td>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <h3 style="margin-top: 24px;">MongoDB Document Collections</h3>
-                    <table class="data-table">
-                      <thead>
-                        <tr>
-                          <th>Collection Name</th>
-                          <th>Linked Keys</th>
-                          <th>Dynamic Structure Pattern</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><strong>courseResources</strong></td>
-                          <td>courseId</td>
-                          <td>Stores varied academic files (lecture PDFs, slide links, mp4 videos, quiz structures) using flexible nested object arrays.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>courseReviews</strong></td>
-                          <td>courseId, studentId</td>
-                          <td>Captures reviews, numeric ratings (1 to 5), and open-ended feedback comments. Optimized with indexing for aggregation.</td>
-                        </tr>
-                        <tr>
-                          <td><strong>discussionThreads</strong></td>
-                          <td>courseId, authorId</td>
-                          <td>Models forums and Q&A boards. Employs text indexes on titles and post bodies for full-text query searches.</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <!-- Integration -->
-                <div class="docs-panel" id="doc-integration">
-                  <div class="grid-2">
-                    <div class="glass-panel">
-                      <h3>MongoDB Aggregations & Analytical Queries</h3>
-                      <p>In our architecture, MongoDB works as the high-throughput, unstructured document database. The following MongoDB commands satisfy the course brief's query specifications:</p>
-
-                      <div class="query-code-card">
-                        <strong>Query 1: Retrieve All Feedback for a Given Course</strong>
-                        <pre>
-db.courseReviews.find({
-  courseId: "C101"
-})
-                        </pre>
-                      </div>
-
-                      <div class="query-code-card">
-                        <strong>Query 2: Aggregated Course Ratings (Top Rated)</strong>
-                        <pre>
-db.courseReviews.aggregate([
-  { 
-    $group: { 
-      _id: "$courseId", 
-      averageRating: { $avg: "$rating" }, 
-      reviewCount: { $sum: 1 } 
-    } 
-  },
-  { $sort: { averageRating: -1, reviewCount: -1 } }
-])
-                        </pre>
-                      </div>
-
-                      <div class="query-code-card">
-                        <strong>Query 3: Full-text Search on Forums</strong>
-                        <pre>
-db.discussionThreads.find({
-  $text: { $search: "trigger" }
-})
-                        </pre>
-                      </div>
-                    </div>
-
-                    <div class="glass-panel">
-                      <h3>Hybrid Analytics Innovation</h3>
-                      <p>A key innovation of CourseConnect is combining relational transactional metrics from Oracle and engagement data from MongoDB to compute hybrid intelligence reports.</p>
-                      
-                      <div class="eer-item">
-                        <strong>Relational + NoSQL Integration</strong>
-                        <p>The web application reads enrollment statistics, course pricing, and payments status from Oracle, then fetches student reviews and dynamic files from MongoDB, binding them dynamically in the Course Details Drawer.</p>
-                      </div>
-
-                      <div class="eer-item">
-                        <strong>Business Analytics</strong>
-                        <p>Using these joint queries, the system dashboard can flag courses that have high transactional revenues but declining feedback scores, allowing coordinators to optimize student engagement plans.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-        </main>
-      </div>
-
-      <!-- COURSE DETAIL DRAWER (SLIDE OUT MODAL) -->
-      <div id="details-drawer" class="drawer">
-        <div class="drawer-overlay" id="drawer-overlay"></div>
-        <div class="drawer-content">
-          <button id="close-drawer" class="close-btn" aria-label="Close Details">&times;</button>
-          <div id="drawer-body" class="drawer-body">
-            <!-- Dynamically populated course data -->
-          </div>
-        </div>
-      </div>
-
+    <div class="auth-tabs">
+      <button type="button" class="active" data-authtab="login">Sign in</button>
+      <button type="button" data-authtab="register">Create account</button>
     </div>
 
-    <!-- Frontend logic -->
-    <script src="/app.js"></script>
-  </body>
+    <div id="login-error" class="form-error"></div>
+
+    <form id="login-form">
+      <div class="field"><label for="login-email">Email</label><input id="login-email" type="email" required autocomplete="username" /></div>
+      <div class="field"><label for="login-password">Password</label><input id="login-password" type="password" required autocomplete="current-password" /></div>
+      <button class="btn teal" type="submit" style="width:100%">Sign in</button>
+    </form>
+
+    <form id="register-form" style="display:none">
+      <div class="field"><label for="reg-name">Full name</label><input id="reg-name" required /></div>
+      <div class="field"><label for="reg-email">Email</label><input id="reg-email" type="email" required /></div>
+      <div class="field"><label for="reg-password">Password</label><input id="reg-password" type="password" minlength="6" required /></div>
+      <button class="btn teal" type="submit" style="width:100%">Create student account</button>
+    </form>
+
+    <div class="demo-accounts">
+      Demo accounts &mdash; password for all: <code>password123</code>
+      <button type="button" data-demo="admin@courseconnect.edu">admin@courseconnect.edu &middot; Admin</button>
+      <button type="button" data-demo="amara@courseconnect.edu">amara@courseconnect.edu &middot; Lecturer</button>
+      <button type="button" data-demo="kavindu@example.com">kavindu@example.com &middot; Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= APP SHELL ======================= -->
+<div id="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark">CourseConnect</span></div>
+    <div class="brand-sub">registrar console</div>
+
+    <nav class="primary-nav" id="primary-nav">
+      <span class="nav-group-label">Overview</span>
+      <button class="nav-btn" data-view="dashboard"><span class="glyph">01</span>Dashboard</button>
+      <button class="nav-btn" data-view="catalogue"><span class="glyph">02</span>Course catalogue</button>
+
+      <span class="nav-group-label" data-role="STUDENT">Learning</span>
+      <button class="nav-btn" data-view="mylearning" data-role="STUDENT"><span class="glyph">03</span>My learning</button>
+
+      <span class="nav-group-label">Community</span>
+      <button class="nav-btn" data-view="community"><span class="glyph">04</span>Reviews &amp; forums</button>
+
+      <span class="nav-group-label" data-role="ADMIN,LECTURER">Operations</span>
+      <button class="nav-btn" data-view="enrollments" data-role="ADMIN,LECTURER"><span class="glyph">05</span>Enrollments</button>
+      <button class="nav-btn" data-view="payments" data-role="ADMIN"><span class="glyph">06</span>Payments</button>
+      <button class="nav-btn" data-view="people" data-role="ADMIN,LECTURER"><span class="glyph">07</span>Lecturers &amp; students</button>
+      <button class="nav-btn" data-view="reports" data-role="ADMIN,LECTURER"><span class="glyph">08</span>Business reports</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div id="db-modes"></div>
+      <div style="margin-top:8px">Oracle schema + PL/SQL &middot; MongoDB documents</div>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <div id="crumb" style="font-family: var(--font-mono); font-size:0.78rem; color: var(--ink-soft);">registrar / dashboard</div>
+      <div class="whoami">
+        <span id="who-name"></span>
+        <span id="who-role" class="role-badge"></span>
+        <button class="btn ghost small" id="logout-btn">Sign out</button>
+      </div>
+    </header>
+
+    <!-- ---------------- DASHBOARD ---------------- -->
+    <section class="view" id="view-dashboard">
+      <div class="view-head">
+        <div><span class="eyebrow">Snapshot</span><h1>Platform dashboard</h1><p class="lede">Live counts from the relational ledger, blended with MongoDB review sentiment.</p></div>
+      </div>
+      <div class="kpi-grid" id="kpi-grid"></div>
+      <div class="two-col">
+        <div class="card card-pad">
+          <div class="section-title"><h3>Most enrolled courses</h3><span class="hint">PL/SQL report 1</span></div>
+          <table class="data" id="dash-top-courses"></table>
+        </div>
+        <div class="card card-pad">
+          <div class="section-title"><h3>Top rated (MongoDB)</h3><span class="hint">aggregation pipeline</span></div>
+          <table class="data" id="dash-top-rated"></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- CATALOGUE ---------------- -->
+    <section class="view" id="view-catalogue">
+      <div class="view-head">
+        <div><span class="eyebrow">Catalogue</span><h1>Course listing</h1><p class="lede">Browse published courses across technology, business, and creative arts.</p></div>
+        <button class="btn teal" id="new-course-btn" data-role="ADMIN">+ New course</button>
+      </div>
+      <div class="filter-row">
+        <input type="search" id="course-search" placeholder="Search courses&hellip;" />
+        <select id="course-category-filter"><option value="">All categories</option></select>
+        <select id="course-level-filter">
+          <option value="">All levels</option>
+          <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+        </select>
+        <select id="course-status-filter" data-role="ADMIN,LECTURER">
+          <option value="">All statuses</option>
+          <option>PUBLISHED</option><option>DRAFT</option><option>ARCHIVED</option>
+        </select>
+      </div>
+      <div class="course-grid" id="course-grid"></div>
+    </section>
+
+    <!-- ---------------- COURSE DETAIL (modal-like inline) ---------------- -->
+    <section class="view" id="view-course-detail">
+      <div class="view-head">
+        <div><button class="btn ghost small" id="back-to-catalogue">&larr; Back to catalogue</button></div>
+      </div>
+      <div id="course-detail-body"></div>
+    </section>
+
+    <!-- ---------------- MY LEARNING ---------------- -->
+    <section class="view" id="view-mylearning">
+      <div class="view-head">
+        <div><span class="eyebrow">My learning</span><h1>Enrollments &amp; progress</h1><p class="lede">Track lesson completion, outstanding payments, and earned certificates.</p></div>
+      </div>
+      <div id="mylearning-body"></div>
+      <h2 style="margin-top:28px">Certificates</h2>
+      <div id="mylearning-certs" class="course-grid"></div>
+    </section>
+
+    <!-- ---------------- COMMUNITY (reviews + forum) ---------------- -->
+    <section class="view" id="view-community">
+      <div class="view-head">
+        <div><span class="eyebrow">MongoDB</span><h1>Reviews &amp; discussion</h1><p class="lede">Flexible, schema-free content: ratings, open feedback, and threaded Q&amp;A.</p></div>
+      </div>
+      <div class="tabs-inline">
+        <button class="active" data-ctab="reviews">Top rated</button>
+        <button data-ctab="forum">Discussion forum</button>
+        <button data-ctab="resources">Course resources</button>
+      </div>
+      <div id="community-reviews"></div>
+      <div id="community-forum" style="display:none">
+        <div class="filter-row">
+          <input type="search" id="forum-search" placeholder="Search threads for a keyword&hellip;" />
+          <button class="btn ghost small" id="forum-search-btn">Search</button>
+          <button class="btn teal small" id="new-thread-btn" style="margin-left:auto">+ New thread</button>
+        </div>
+        <div id="forum-list"></div>
+      </div>
+      <div id="community-resources" style="display:none">
+        <div class="filter-row">
+          <select id="resource-course-filter"><option value="">Choose a course&hellip;</option></select>
+        </div>
+        <div id="resource-list"></div>
+      </div>
+    </section>
+
+    <!-- ---------------- ENROLLMENTS (staff) ---------------- -->
+    <section class="view" id="view-enrollments">
+      <div class="view-head">
+        <div><span class="eyebrow">Operations</span><h1>Enrollments</h1><p class="lede">Every active, completed, and cancelled registration.</p></div>
+      </div>
+      <div class="card card-pad"><table class="data" id="enrollments-table"></table></div>
+    </section>
+
+    <!-- ---------------- PAYMENTS (admin) ---------------- -->
+    <section class="view" id="view-payments">
+      <div class="view-head">
+        <div><span class="eyebrow">Operations</span><h1>Payment processing</h1><p class="lede">Every transaction, its status, and reference.</p></div>
+      </div>
+      <div class="filter-row">
+        <select id="payment-status-filter">
+          <option value="">All statuses</option>
+          <option>PAID</option><option>PENDING</option><option>FAILED</option><option>REFUNDED</option>
+        </select>
+      </div>
+      <div class="card card-pad"><table class="data" id="payments-table"></table></div>
+    </section>
+
+    <!-- ---------------- PEOPLE (lecturers + students admin) ---------------- -->
+    <section class="view" id="view-people">
+      <div class="view-head">
+        <div><span class="eyebrow">Operations</span><h1>Lecturers &amp; students</h1><p class="lede">Manage platform accounts.</p></div>
+      </div>
+      <div class="tabs-inline">
+        <button class="active" data-ptab="lecturers">Lecturers</button>
+        <button data-ptab="students">Students</button>
+      </div>
+      <div id="people-lecturers">
+        <div class="view-head" style="margin-bottom:10px"><div></div><button class="btn teal small" id="new-lecturer-btn" data-role="ADMIN">+ Add lecturer</button></div>
+        <div class="card card-pad"><table class="data" id="lecturers-table"></table></div>
+      </div>
+      <div id="people-students" style="display:none">
+        <div class="view-head" style="margin-bottom:10px"><div></div><button class="btn teal small" id="new-student-btn" data-role="ADMIN">+ Add student</button></div>
+        <div class="card card-pad"><table class="data" id="students-table"></table></div>
+      </div>
+    </section>
+
+    <!-- ---------------- REPORTS ---------------- -->
+    <section class="view" id="view-reports">
+      <div class="view-head">
+        <div><span class="eyebrow">PL/SQL + hybrid</span><h1>Business reports</h1><p class="lede">Five relational reports required by the brief, plus a hybrid Oracle &times; MongoDB course-health report.</p></div>
+      </div>
+      <div class="tabs-inline" id="report-tabs">
+        <button class="active" data-report="popular-courses">Popular courses</button>
+        <button data-report="revenue">Revenue by period</button>
+        <button data-report="pending-payments">Pending payments</button>
+        <button data-report="lecturer-performance">Lecturer performance</button>
+        <button data-report="hybrid-course-health">Course health (hybrid)</button>
+      </div>
+      <div id="report-controls" class="filter-row"></div>
+      <div class="card card-pad">
+        <div class="section-title"><h3 id="report-title">Popular courses</h3><button class="btn ghost small" id="report-csv-btn">Download CSV</button></div>
+        <table class="data" id="report-table"></table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack"></div>
+
+<!-- ---------------- Generic modal ---------------- -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modal-title">Title</h3><button class="close" id="modal-close">&times;</button></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
 </html>

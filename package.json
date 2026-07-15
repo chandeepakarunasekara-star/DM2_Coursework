@@ -4,8 +4,8 @@
   "description": "CourseConnect coursework project for Data Management 2: Oracle relational database, PL/SQL reports, MongoDB flexible content, and a web application.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "test": "node src/tests.js"
+    "start": "node --no-warnings src/server.js",
+    "dev": "node --no-warnings --watch src/server.js"
   },
   "keywords": [
     "oracle",
@@ -15,5 +15,15 @@
     "coursework"
   ],
   "author": "HDSE Student",
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongodb": "^7.5.0"
+  }
 }
