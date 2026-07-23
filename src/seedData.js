@@ -1,8 +1,4 @@
-// Canonical demo dataset for CourseConnect.
-// The same records are used to seed the relational engine (Oracle in
-// production, embedded SQLite for local/demo runs) and the document store
-// (MongoDB in production, embedded JSON store for local/demo runs), so the
-// two layers describe a single consistent scenario.
+
 
 const categories = [
   { name: "Technology", description: "Programming, databases, cloud, and data platforms" },
@@ -26,9 +22,7 @@ const students = [
   { name: "Nethmi Karunaratne", email: "nethmi@example.com", registered: "2026-03-01" }
 ];
 
-// Demo login accounts. All demo accounts share the password "password123".
-// Passwords are hashed at seed time (see src/db/authStore.js) - nothing is
-// ever stored in plain text, including in this seed file.
+
 const DEMO_PASSWORD = "password123";
 const users = [
   { email: "admin@courseconnect.edu", role: "ADMIN", name: "Platform Admin", linkedType: null, linkedRef: null },

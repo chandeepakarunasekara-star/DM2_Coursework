@@ -70,8 +70,6 @@ which engine is active on startup.
 
 ## Submission helpers
 
-- `docs/MARKING_CHECKLIST.md` — confirms each coursework requirement is covered
 - `docs/DATA_DICTIONARY.md` — explains all Oracle tables and MongoDB collections
-- `docs/VIVA_ANSWERS.md` — short answers for common viva questions
 - `docs/INTEGRATION_GUIDE.md` — how the app talks to Oracle/MongoDB (and the embedded fallbacks)
 - `docs/ER_DIAGRAM.md` / `docs/BUSINESS_REPORTS.md` — schema and report reference
